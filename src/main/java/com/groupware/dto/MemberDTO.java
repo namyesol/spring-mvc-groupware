@@ -1,4 +1,4 @@
-package com.dto;
+package com.groupware.dto;
 
 import org.apache.ibatis.type.Alias;
 

@@ -9,6 +9,7 @@
 
 	<!-- 기본 : Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	
 	<default-servlet-handler/>
 
 	<!-- 페이지 주소 설정 -->
@@ -19,7 +20,7 @@
 	<view-controller path="/myPage" view-name="myPage"/><!-- myPage.jsp -->
 	
 	<!-- 회원전용처리 : interceptor Bean 생성  -->
-	<beans:bean id="loginCheckInterceptor" class="com.interceptor.LoginCheckInterceptor"></beans:bean>
+	<beans:bean id="loginCheckInterceptor" class="com.groupware.interceptor.LoginCheckInterceptor"></beans:bean>
 	<!-- 회원전용처리 : interceptor 주소 처리 -->
 	<interceptors>
 		<interceptor>
@@ -35,5 +36,5 @@
 	</beans:bean>
 	
 	<!-- annotation config는 component-scan에 포함됨 -->
-	<context:component-scan base-package="com.*"></context:component-scan>
+	<context:component-scan base-package="com.groupware.*"></context:component-scan>
 </beans:beans>

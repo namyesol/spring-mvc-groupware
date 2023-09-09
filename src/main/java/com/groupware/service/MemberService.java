@@ -1,12 +1,12 @@
-package com.service;
+package com.groupware.service;
 
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dao.MemberDAO;
-import com.dto.MemberDTO;
+import com.groupware.dao.MemberDAO;
+import com.groupware.dto.MemberDTO;
 
 @Service("MemberService")
 public class MemberService {
