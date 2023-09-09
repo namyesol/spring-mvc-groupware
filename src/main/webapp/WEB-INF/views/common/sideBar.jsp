@@ -17,7 +17,7 @@
 		<li><a class="main-li" href="myPage">마이 페이지</a></li>
 		<li><a class="main-li" href="#">근태 관리</a></li>
 		<li><a class="main-li" href="OrganUIServlet">조직도</a></li>
-		<li><a class="main-li" href="NoticeListServlet">공지사항</a></li>
+		<li><a class="main-li" href="/notices">공지사항</a></li>
 		<li><a class="main-li" href="#">자유게시판</a></li>
 		<li><a class="main-li" href="FileBoard">자료함</a></li>
 		<li><a class="main-li" href="DraftList">전자결재</a></li>
