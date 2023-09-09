@@ -1,4 +1,4 @@
-package com.controller;
+package com.groupware.controller;
 
 import java.util.HashMap;
 
@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.dto.MemberDTO;
-import com.service.MemberService;
+import com.groupware.service.MemberService;
+import com.groupware.dto.MemberDTO;
 
 @Controller
 public class LoginController {

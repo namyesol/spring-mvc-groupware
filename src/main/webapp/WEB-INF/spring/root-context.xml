@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- 1.jdbc.properties -->
-    <context:property-placeholder location="classpath:com/config/jdbc.properties"/>
+    <context:property-placeholder location="classpath:com/groupware/config/jdbc.properties"/>
     
 	<!-- 2.DBCP2 -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
@@ -21,12 +21,12 @@
         <property name="dataSource" ref="dataSource"></property>
         <property name="mapperLocations">
             <list>
-                <value>classpath:com/config/MemberMapper.xml</value>
+                <value>classpath:com/groupware/config/MemberMapper.xml</value>
             </list>
         </property>
         <property name="typeAliases">
             <list>
-                <value>com.dto.MemberDTO</value>
+                <value>com.groupware.dto.MemberDTO</value>
             </list>
         </property>
     </bean>
