@@ -42,6 +42,11 @@
                 <value>com.groupware.dto.community.ReplyDetailsDTO</value>
             </list>
         </property>
+        <property name="configuration">
+        	<bean class="org.apache.ibatis.session.Configuration">
+		      <property name="jdbcTypeForNull" value="NULL"/>
+		    </bean>
+        </property>
     </bean>
         
     <!-- 4. SqlSessionTemplate : SqlSession기능 -->
