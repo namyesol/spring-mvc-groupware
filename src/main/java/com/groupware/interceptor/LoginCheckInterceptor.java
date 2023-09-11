@@ -19,10 +19,11 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter{
 		HttpSession session = request.getSession();
 		
 		if (session.getAttribute("login") == null) {
-			// /loginCheck/** 주소일 경우 ..없이 호출하면 sub 주소가 남아있게 되어 /loginCheck/loginForm 주소 요청이 됨
-			response.sendRedirect("../loginForm");
+			// 로그인하지 않았다면 "/" 로 리다이렉트하여 준다.
 			// servlet-context.xml
-			// <view-controller path="/loginForm" view-name="loginForm"/>
+			// <view-controller path="/" view-name="loginForm"/>
+			response.sendRedirect("/");
+			
 			return false;
 		} else
 			return true;
