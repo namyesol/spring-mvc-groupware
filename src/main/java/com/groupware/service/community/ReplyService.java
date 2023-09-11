@@ -1,86 +1,46 @@
 package com.groupware.service.community;
 
-import java.util.Collections;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.groupware.config.MySqlSessionFactory;
 import com.groupware.dao.community.ReplyDAO;
 import com.groupware.dto.community.ReplyDTO;
 import com.groupware.dto.community.ReplyDetailsDTO;
 
-
+@Service
 public class ReplyService {
 
+	@Autowired
     private ReplyDAO dao;
   
-    public ReplyService() {
-    	this.dao = new ReplyDAO();
-    }
-
     public void save(ReplyDTO reply) {
-    	SqlSession session = MySqlSessionFactory.getSession();
-    	try {
-            dao.insert(session, reply);
-			session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+        dao.insert(reply);
     }
     
     public List<ReplyDetailsDTO> getReplyDetailsListByComNum(Long comNum) {
-		SqlSession session = MySqlSessionFactory.getSession();
-		try {
-			return dao.getReplyDetailsListByComNum(session, comNum);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return Collections.emptyList();
+		return dao.getReplyDetailsListByComNum(comNum);
     }
     
-
 	public void update(Long replyNum, Long memberNum, ReplyDTO updateDTO) {
-		SqlSession session = MySqlSessionFactory.getSession();
-		try {
-			ReplyDTO reply = dao.getReplyByNum(session, replyNum);
+		ReplyDTO reply = dao.getReplyByNum(replyNum);
 			
-			if (!memberNum.equals(reply.getMemberNum())) {
-				return;
-			}
-			
-			reply.setContent(updateDTO.getContent());
-			dao.update(session, reply);
-			
-			session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
+		if (!memberNum.equals(reply.getMemberNum())) {
+			return;
 		}
 		
+		reply.setContent(updateDTO.getContent());
+		dao.update(reply);
 	}
     
     public void delete(Long replyNum, Long memberNum) {
-    	SqlSession session = MySqlSessionFactory.getSession();
-    	try {
-	    	ReplyDTO reply = dao.getReplyByNum(session, replyNum);
-	    	
-	    	if (!memberNum.equals(reply.getMemberNum())) {
-	    		return;
-	    	}
-	    	
-	    	dao.delete(session, replyNum);
-			session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+    	ReplyDTO reply = dao.getReplyByNum(replyNum);
+    	
+    	if (!memberNum.equals(reply.getMemberNum())) {
+    		return;
+    	}
+    	
+    	dao.delete(replyNum);
     }
-
 }

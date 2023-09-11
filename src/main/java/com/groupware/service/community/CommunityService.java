@@ -3,154 +3,81 @@ package com.groupware.service.community;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.groupware.common.PageRequestDTO;
 import com.groupware.common.PageResponseDTO;
-import com.groupware.config.MySqlSessionFactory;
 import com.groupware.dao.community.CommunityDAO;
 import com.groupware.dao.community.ReplyDAO;
 import com.groupware.dto.community.CommunityDTO;
 import com.groupware.dto.community.CommunityDetailsDTO;
 import com.groupware.dto.community.ReplyDTO;
 
-
-
+@Service
 public class CommunityService {
 
-	private static final Logger log = LoggerFactory.getLogger(CommunityService.class);
-	
+	@Autowired
     private CommunityDAO communityDao;
+	
+	@Autowired
     private ReplyDAO replyDao;
 
-    public CommunityService() {
-        this.communityDao = new CommunityDAO();
-        this.replyDao = new ReplyDAO();
-    }
-
     public void save(CommunityDTO community) {
-    	SqlSession session = MySqlSessionFactory.getSession();
-    	try {
-    		communityDao.insert(session, community);
-    		session.commit();
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	} finally {
-    		session.close();
-    	}
+		communityDao.insert(community);
     }
 
     public CommunityDTO getCommunityByNum(Long comNum) {
-    	SqlSession session = MySqlSessionFactory.getSession();
-    	try {
-	        CommunityDTO community = communityDao.getCommunityByNum(session, comNum);
-	        return community;
-    	} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-    	
-    	return null;
+        return communityDao.getCommunityByNum(comNum);
     }
 
     public List<CommunityDTO> getCommunityList() {
-        SqlSession session = MySqlSessionFactory.getSession();
-		try {
-			return communityDao.getCommunityList(session);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return Collections.emptyList();
+		return communityDao.getCommunityList();
     }
 
     public void update(Long comNum, Long memberNum, CommunityDTO updateParam) {
-		SqlSession session = MySqlSessionFactory.getSession();
-		try {
-	        CommunityDTO community = communityDao.getCommunityByNum(session, comNum);
-	
-	        if (!community.getMemberNum().equals(memberNum)) {
-	            return;
-	        }
-	        
-	        community.setTitle(updateParam.getTitle());
-	        community.setContent(updateParam.getContent());
-	        
-	        communityDao.update(session, community);
-			
-	        session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+        CommunityDTO community = communityDao.getCommunityByNum(comNum);
+
+        if (!community.getMemberNum().equals(memberNum)) {
+            return;
+        }
+        
+        community.setTitle(updateParam.getTitle());
+        community.setContent(updateParam.getContent());
+        
+        communityDao.update(community);
     }
 
     public void delete(Long comNum, Long memberNum) {
-		SqlSession session = MySqlSessionFactory.getSession();
-		try {
-	        CommunityDTO community = communityDao.getCommunityByNum(session, comNum);
-	
-	        if (!community.getMemberNum().equals(memberNum)) {
-	            return;
-	        }
-	        
-	        List<ReplyDTO> replyList = replyDao.getReplyListByComNum(session, comNum);
-	        for (ReplyDTO reply : replyList) {
-	            replyDao.delete(session, reply.getReplyNum());
-	        }
-	        communityDao.delete(session, comNum);
-	        
-	        session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+        CommunityDTO community = communityDao.getCommunityByNum(comNum);
+
+        if (!community.getMemberNum().equals(memberNum)) {
+            return;
+        }
+        
+        List<ReplyDTO> replyList = replyDao.getReplyListByComNum(comNum);
+        for (ReplyDTO reply : replyList) {
+            replyDao.delete(reply.getReplyNum());
+        }
+        communityDao.delete(comNum);
     }
     
     public void increaseViews(Long comNum) {
-    	SqlSession session = MySqlSessionFactory.getSession();
-		try {
-			communityDao.increaseViews(session, comNum);
-			session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+		communityDao.increaseViews(comNum);
     }
 
     public CommunityDetailsDTO getCommunityDetailsByNum(Long replyNum) {
-    	SqlSession session = MySqlSessionFactory.getSession();
-    	try {
-    		return communityDao.getCommunityDetailsByNum(session, replyNum);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	} finally {
-    		session.close();
-    	}
-    	
-    	return null;
+		return communityDao.getCommunityDetailsByNum(replyNum);
     }
 
     
     public PageResponseDTO<CommunityDetailsDTO> getCommunityDetailsList(PageRequestDTO page) {
-    	SqlSession session = MySqlSessionFactory.getSession();
-    	try {
-    		int count = communityDao.count(session);
-    		List<CommunityDetailsDTO> communityDetailsList = communityDao.getCommunityDetailsList(session, page);
-    		return new PageResponseDTO<CommunityDetailsDTO>(page, communityDetailsList, count);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	} finally {
-    		session.close();
-    	}
-    	
+		int count = communityDao.count();
+		List<CommunityDetailsDTO> communityDetailsList = communityDao.getCommunityDetailsList(page);
+		if (!communityDetailsList.isEmpty()) {
+			return new PageResponseDTO<CommunityDetailsDTO>(page, communityDetailsList, count);
+		}
+	
 		return new PageResponseDTO<CommunityDetailsDTO>(page, Collections.emptyList(), 0);
     }
 }
