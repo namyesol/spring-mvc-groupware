@@ -1,11 +1,11 @@
 package com.groupware.controller.community;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.groupware.dto.MemberDTO;
 import com.groupware.dto.community.ReplyDTO;
@@ -18,22 +18,12 @@ public class ReplyController {
 	private ReplyService replyService;
 	
 	@PostMapping("/NewReplyServlet")
-	public String newReply(HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public String newReply(@RequestParam Long comNum, @RequestParam(required=false) Long parentReplyNum, @RequestParam String content, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
 		} else {
 			Long memberNum = Long.valueOf(member.getMember_num());
-			Long comNum = Long.valueOf(request.getParameter("comNum"));
-			String content = request.getParameter("content");
-			Long parentReplyNum = null;
-			String parentReplyParam = request.getParameter("parentReplyNum");
-			if (parentReplyParam == null) {
-				parentReplyNum = null;
-			} else {
-				parentReplyNum = Long.valueOf(parentReplyParam);
-			}
 			
 			ReplyDTO reply = new ReplyDTO(memberNum, comNum, parentReplyNum, content);
 			
@@ -44,16 +34,12 @@ public class ReplyController {
 	}
 	
 	@PostMapping("/EditReplyServlet")
-	public String updateReply(HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public String updateReply(@RequestParam Long replyNum, @RequestParam Long comNum, @RequestParam String content, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
 		} else {
-			Long replyNum = Long.parseLong(request.getParameter("replyNum"));
 			Long memberNum = Long.valueOf(member.getMember_num());
-			Long comNum = Long.parseLong(request.getParameter("comNum"));
-			String content = request.getParameter("content");
 			
 			ReplyDTO updateDTO = new ReplyDTO();
 			updateDTO.setContent(content);
@@ -64,14 +50,11 @@ public class ReplyController {
 	}
 	
 	@PostMapping("/DeleteReplyServlet")
-	public String deleteReply(HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public String deleteReply(@RequestParam Long replyNum, @RequestParam Long comNum, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
 		} else {
-			Long replyNum = Long.parseLong(request.getParameter("replyNum"));
-			Long comNum = Long.parseLong(request.getParameter("comNum"));
 			Long memberNum = Long.valueOf(member.getMember_num());
 
 			replyService.delete(replyNum, memberNum);
