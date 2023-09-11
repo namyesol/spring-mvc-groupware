@@ -33,121 +33,92 @@ public class CommunityController {
 	//자유게시판 리스트
 	@GetMapping("/communities")
 	public String getCommunityList(
-			@RequestParam(name="page", required=false, defaultValue="1") int page,
-			@RequestParam(name="size", required=false, defaultValue="5") int size,
-			HttpSession session, Model model) {
-		MemberDTO member = (MemberDTO) session.getAttribute("login");
-		if (member == null) {
-			return "redirect:/";
-		} else {
+		@RequestParam(name="page", required=false, defaultValue="1") int page,
+		@RequestParam(name="size", required=false, defaultValue="5") int size,
+		Model model) {
 			
-			PageRequestDTO pageRequest = new PageRequestDTO(page, size);
-			
-			PageResponseDTO<CommunityDetailsDTO> pageResponse = communityService.getCommunityDetailsList(pageRequest);
-			model.addAttribute("pageResponse", pageResponse);
-			
-			return "community/community-list";
-		}
+		PageRequestDTO pageRequest = new PageRequestDTO(page, size);
+		
+		PageResponseDTO<CommunityDetailsDTO> pageResponse = communityService.getCommunityDetailsList(pageRequest);
+		model.addAttribute("pageResponse", pageResponse);
+		
+		return "community/community-list";
 	}
 	
 	//새로작성폼 보여주기
 	@GetMapping("/communities/new")
-	public String showNewCommunityForm(HttpSession session) {
-		MemberDTO member = (MemberDTO) session.getAttribute("login");
-		if (member == null) {
-			return "redirect:/";
-		} else {
-			return "community/community-new";
-		}
+	public String showNewCommunityForm() {
+		return "community/community-new";
 	}
 	
 	//새로작성
 	@PostMapping("/communities/new")
 	public String newCommunity(@RequestParam String title, @RequestParam String content, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
-		if (member == null) {
-			return "redirect:/";
-		} else {
-			Long memberNum = Long.valueOf(member.getMember_num());
-			CommunityDTO community = new CommunityDTO(memberNum, title, content);
-			
-			communityService.save(community);
-			
-			return "redirect:" + "/communities/" + community.getComNum();
-		}
+		Long memberNum = Long.valueOf(member.getMember_num());
+		CommunityDTO community = new CommunityDTO(memberNum, title, content);
+		
+		communityService.save(community);
+		
+		return "redirect:" + "/communities/" + community.getComNum();
 	}
 	
 	//상세페이지
 	@GetMapping("/communities/{comNum}") 
-	public String getCommunityDetails(@PathVariable Long comNum, HttpSession session, Model model) {
-		MemberDTO member = (MemberDTO) session.getAttribute("login");
-		if (member == null) {
-			return "redirect:/";
-		} else {
+	public String getCommunityDetails(@PathVariable Long comNum, Model model) {
 
-			communityService.increaseViews(comNum);
-			
-			CommunityDetailsDTO communityDetails = communityService.getCommunityDetailsByNum(comNum);
-			List<ReplyDetailsDTO> replyDetailsList = replyService.getReplyDetailsListByComNum(comNum);
-			
-			model.addAttribute("communityDetails", communityDetails);
-			model.addAttribute("replyDetailsList", replyDetailsList);
+		communityService.increaseViews(comNum);
+		
+		CommunityDetailsDTO communityDetails = communityService.getCommunityDetailsByNum(comNum);
+		List<ReplyDetailsDTO> replyDetailsList = replyService.getReplyDetailsListByComNum(comNum);
+		
+		model.addAttribute("communityDetails", communityDetails);
+		model.addAttribute("replyDetailsList", replyDetailsList);
 
-			return "community/community-details";
-		}
+		return "community/community-details";
 	}
 	
 	//수정폼 보여주기
 	@GetMapping("/communities/{comNum}/edit")
 	public String showUpdatCommunityForm(@PathVariable Long comNum, HttpSession session, Model model) {
+		// TODO 게시글 작성자만 수정폼을 볼 수 있도 변경 
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
-		if (member == null) {
-			return "redirect:/";
-		} else {
+		
+		CommunityDTO community = communityService.getCommunityByNum(comNum);
 
-			CommunityDTO community = communityService.getCommunityByNum(comNum);
+		model.addAttribute("community", community);
 
-			model.addAttribute("community", community);
-
-			return "community/community-edit";
-		}
+		return "community/community-edit";
 	}
 	
 	//수정하기
 	@PostMapping("/communities/{comNum}/edit")
 	public String updateCommunity(
-			@PathVariable Long comNum,
-			@RequestParam String title,
-			@RequestParam String content,
-			HttpSession session) {
+		@PathVariable Long comNum,
+		@RequestParam String title,
+		@RequestParam String content,
+		HttpSession session) {
+		
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
-		if (member == null) {
-			return "redirect:/";
-		} else {
-			Long memberNum = Long.valueOf(member.getMember_num());
+		Long memberNum = Long.valueOf(member.getMember_num());
 
-			CommunityDTO updateDTO = new CommunityDTO();
-			updateDTO.setTitle(title);
-			updateDTO.setContent(content);
-			
-			communityService.update(comNum, memberNum, updateDTO);
-			
-			return "redirect:" + "/communities/" + comNum;
-		}
+		CommunityDTO updateDTO = new CommunityDTO();
+		updateDTO.setTitle(title);
+		updateDTO.setContent(content);
+		
+		communityService.update(comNum, memberNum, updateDTO);
+		
+		return "redirect:" + "/communities/" + comNum;
 	}
 	
 	//삭제하기
 	@PostMapping("/communities/{comNum}/delete") 
 	public String deleteCommunity(@PathVariable Long comNum, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
-		if (member == null) {
-			return "redirect:/";
-		} else {
-			Long memNum = Long.valueOf(member.getMember_num());
-			
-			communityService.delete(comNum, memNum);
-			
-			return "redirect:" + "/communities/";
-		}
+		Long memNum = Long.valueOf(member.getMember_num());
+		
+		communityService.delete(comNum, memNum);
+		
+		return "redirect:" + "/communities/";
 	}
 }

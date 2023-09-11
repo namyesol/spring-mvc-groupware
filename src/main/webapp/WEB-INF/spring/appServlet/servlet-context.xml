@@ -25,6 +25,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/loginCheck/**"/>
+			<mapping path="/communities/**"/>
 			<exclude-mapping path="/css/**"/>
 			<exclude-mapping path="/js/**"/>
 			<beans:ref bean="loginCheckInterceptor"/>
