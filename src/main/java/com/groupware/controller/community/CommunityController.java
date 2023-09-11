@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,8 +31,7 @@ public class CommunityController {
 	private ReplyService replyService;
 	
 	//자유게시판 리스트
-	// @GetMapping("/communities")
-	@GetMapping("/CommunityListServlet")
+	@GetMapping("/communities")
 	public String getCommunityList(
 			@RequestParam(name="page", required=false, defaultValue="1") int page,
 			@RequestParam(name="size", required=false, defaultValue="5") int size,
@@ -51,8 +51,7 @@ public class CommunityController {
 	}
 	
 	//새로작성폼 보여주기
-	// @GetMapping("/communities/new")
-	@GetMapping("/NewCommunityServlet")
+	@GetMapping("/communities/new")
 	public String showNewCommunityForm(HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
@@ -63,8 +62,7 @@ public class CommunityController {
 	}
 	
 	//새로작성
-	// @PostMapping("/communities/new")
-	@PostMapping("/NewCommunityServlet")
+	@PostMapping("/communities/new")
 	public String newCommunity(@RequestParam String title, @RequestParam String content, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
@@ -75,14 +73,13 @@ public class CommunityController {
 			
 			communityService.save(community);
 			
-			return "redirect:" + "/CommunityDetailsServlet"+ "?comNum=" + community.getComNum();
+			return "redirect:" + "/communities/" + community.getComNum();
 		}
 	}
 	
 	//상세페이지
-	// @GetMapping("/communities/{comNum}") 
-	@GetMapping("/CommunityDetailsServlet")
-	public String getCommunityDetails(@RequestParam Long comNum, HttpSession session, Model model) {
+	@GetMapping("/communities/{comNum}") 
+	public String getCommunityDetails(@PathVariable Long comNum, HttpSession session, Model model) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
@@ -101,9 +98,8 @@ public class CommunityController {
 	}
 	
 	//수정폼 보여주기
-	// @GetMapping("/communities/{comNum}/edit")
-	@GetMapping("/EditCommunityServlet")
-	public String showUpdatCommunityForm(@RequestParam Long comNum, HttpSession session, Model model) {
+	@GetMapping("/communities/{comNum}/edit")
+	public String showUpdatCommunityForm(@PathVariable Long comNum, HttpSession session, Model model) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
@@ -118,10 +114,9 @@ public class CommunityController {
 	}
 	
 	//수정하기
-	// @PostMapping("/communities/{comNum}/edit")
-	@PostMapping("/EditCommunityServlet")
+	@PostMapping("/communities/{comNum}/edit")
 	public String updateCommunity(
-			@RequestParam Long comNum,
+			@PathVariable Long comNum,
 			@RequestParam String title,
 			@RequestParam String content,
 			HttpSession session) {
@@ -137,14 +132,13 @@ public class CommunityController {
 			
 			communityService.update(comNum, memberNum, updateDTO);
 			
-			return "redirect:" + "/CommunityDetailsServlet" + "?comNum=" + comNum;
+			return "redirect:" + "/communities/" + comNum;
 		}
 	}
 	
 	//삭제하기
-	// @PostMapping("/communities/{comNum}/delete") 
-	@PostMapping("/DeleteCommunityServlet")
-	public String deleteCommunity(@RequestParam Long comNum, HttpSession session) {
+	@PostMapping("/communities/{comNum}/delete") 
+	public String deleteCommunity(@PathVariable Long comNum, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
@@ -153,7 +147,7 @@ public class CommunityController {
 			
 			communityService.delete(comNum, memNum);
 			
-			return "redirect:" + "/CommunityListServlet";
+			return "redirect:" + "/communities/";
 		}
 	}
 }

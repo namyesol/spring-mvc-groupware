@@ -25,7 +25,7 @@
 			        <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 			        <button class="btn btn-outline-success" type="submit">Search</button>
 		      	</form>
-				<a href="/NewCommunityServlet">
+				<a href="/communities/new">
 					<button type="button" class="btn btn-outline-primary">작성</button>
 				</a>
 			</div>
@@ -42,7 +42,7 @@
 			       </thead>
 			       <tbody>               
 		        	<c:forEach var="communityDetails" items="${pageResponse.items}">
-		        		<c:url var="communityDetailsUrl" value="/CommunityDetailsServlet?comNum=${communityDetails.comNum}"/>
+		        		<c:url var="communityDetailsUrl" value="/communities/${communityDetails.comNum}"/>
 			        	<tr>
 					        <th scope="row">
 					        	<a href="${communityDetailsUrl}">${communityDetails.comNum}</a>
@@ -64,7 +64,7 @@
 				  	<c:choose>
 				  	<c:when test="${pageResponse.hasPrevious}">
 					    <li class="page-item">
-					      <a class="page-link" href="/CommunityListServlet?page=${pageResponse.start-1}&size=${pageResponse.size}" aria-label="Previous">
+					      <a class="page-link" href="/communities?page=${pageResponse.start-1}&size=${pageResponse.size}" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>
 					      </a>
 					    </li>
@@ -81,12 +81,12 @@
 				    <c:choose>
 					    <c:when test="${pageResponse.page eq status.current}">
 					    <li class="page-item active">
-					    	<a class="page-link" href="/CommunityListServlet?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="/communities?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
 				    	</li>
 					    </c:when>
 					    <c:otherwise>
    						<li class="page-item">
-					    	<a class="page-link" href="/CommunityListServlet?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="/communities?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
 				    	</li>
 					    </c:otherwise>
 				    </c:choose>					   
@@ -95,7 +95,7 @@
    				  	<c:choose>
 				  	<c:when test="${pageResponse.hasNext}">
 					    <li class="page-item">
-					      <a class="page-link" href="/CommunityListServlet?page=${pageResponse.end+1}&size=${pageResponse.size}" aria-label="Next">
+					      <a class="page-link" href="/communities?page=${pageResponse.end+1}&size=${pageResponse.size}" aria-label="Next">
 					        <span aria-hidden="true">&raquo;</span>
 					      </a>
 					    </li>

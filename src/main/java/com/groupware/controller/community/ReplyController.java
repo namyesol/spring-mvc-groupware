@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,8 +18,8 @@ public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
 	
-	@PostMapping("/NewReplyServlet")
-	public String newReply(@RequestParam Long comNum, @RequestParam(required=false) Long parentReplyNum, @RequestParam String content, HttpSession session) {
+	@PostMapping("/communities/{comNum}/replies/new")
+	public String newReply(@PathVariable Long comNum, @RequestParam(required=false) Long parentReplyNum, @RequestParam String content, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
@@ -29,12 +30,12 @@ public class ReplyController {
 			
 			replyService.save(reply);
 			
-			return "redirect:" + "/CommunityDetailsServlet"+ "?comNum=" + comNum;
+			return "redirect:" + "/communities/" + comNum;
 		}
 	}
 	
-	@PostMapping("/EditReplyServlet")
-	public String updateReply(@RequestParam Long replyNum, @RequestParam Long comNum, @RequestParam String content, HttpSession session) {
+	@PostMapping("/communities/{comNum}/replies/{replyNum}/edit")
+	public String updateReply(@PathVariable Long replyNum, @PathVariable Long comNum, @RequestParam String content, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
@@ -45,12 +46,12 @@ public class ReplyController {
 			updateDTO.setContent(content);
 			replyService.update(replyNum, memberNum, updateDTO);
 			
-			return "redirect:" + "/CommunityDetailsServlet" + "?comNum=" + comNum;
+			return "redirect:" + "/communities/" + comNum;
 		}
 	}
 	
-	@PostMapping("/DeleteReplyServlet")
-	public String deleteReply(@RequestParam Long replyNum, @RequestParam Long comNum, HttpSession session) {
+	@PostMapping("/communities/{comNum}/replies/{replyNum}/delete")
+	public String deleteReply(@PathVariable Long replyNum, @PathVariable Long comNum, HttpSession session) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
 			return "redirect:/";
@@ -59,7 +60,7 @@ public class ReplyController {
 
 			replyService.delete(replyNum, memberNum);
 			
-			return "redirect:" + "/CommunityDetailsServlet" + "?comNum=" + comNum;
+			return "redirect:" + "/communities/" + comNum;
 		}
 	}
 }
