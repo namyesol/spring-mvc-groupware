@@ -1,31 +1,50 @@
-package com.config;
+package com.groupware.config;
 
-import java.io.IOException;
-import java.io.InputStream;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
-public class MySqlSessionFactory {
-	private static SqlSessionFactory sqlSessionFactory = null;
-	static {
-		String resource = "com/config/Configuration.xml";
-		InputStream inputStream=null;
-		try {
-			inputStream = Resources.getResourceAsStream(resource);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+@Component
+public class MySqlSessionFactory implements ApplicationContextAware {
+	
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		ApplicationContextHolder.INNER_CONTEXT_RESOURCE.setApplicationContext(applicationContext); 
+		
+	}
+	
+	private static class ApplicationContextHolder {
+		
+		private static final InnerContextResource INNER_CONTEXT_RESOURCE = new InnerContextResource();
+	
+		private ApplicationContextHolder() {
+			super();
 		}
-	 sqlSessionFactory =
-		new SqlSessionFactoryBuilder().build(inputStream);
-	}//end static
+	}
+	
+	private static final class InnerContextResource {
+		private ApplicationContext applicationContext;
+		
+		private InnerContextResource() {
+			super();
+		}
+		
+		private void setApplicationContext(ApplicationContext applicationContext) {
+			this.applicationContext = applicationContext;
+		}
+	}
+	
+	private static ApplicationContext getApplicationContext() {
+		return ApplicationContextHolder.INNER_CONTEXT_RESOURCE.applicationContext;
+	}
+	
 	public static SqlSession getSession() {
+		SqlSessionFactory sqlSessionFactory = getApplicationContext().getBean(SqlSessionFactory.class);
 		return sqlSessionFactory.openSession();
 	}
 	
-	
-	
-}//end class
+}
