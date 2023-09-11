@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+
 import com.groupware.common.PageRequestDTO;
 import com.groupware.common.PageResponseDTO;
+import com.groupware.config.ApplicationContextProvider;
 import com.groupware.dto.MemberDTO;
 import com.groupware.dto.community.CommunityDetailsDTO;
 import com.groupware.service.community.CommunityService;
@@ -25,7 +28,8 @@ public class CommunityListServlet extends HttpServlet {
 	private CommunityService communityService;
 
 	public CommunityListServlet() {
-		this.communityService = new CommunityService();
+		ApplicationContext applicationContext = ApplicationContextProvider.getApplicationContext();
+		this.communityService = applicationContext.getBean(CommunityService.class);
 	}
 
 	@Override

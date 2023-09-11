@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+
+import com.groupware.config.ApplicationContextProvider;
 import com.groupware.dto.MemberDTO;
 import com.groupware.dto.community.ReplyDTO;
 import com.groupware.service.community.ReplyService;
@@ -22,7 +25,8 @@ public class NewReplyServlet extends HttpServlet {
 	private ReplyService replyService;
 	
 	public NewReplyServlet() {
-		this.replyService = new ReplyService();
+		ApplicationContext applicationContext = ApplicationContextProvider.getApplicationContext();
+		this.replyService = applicationContext.getBean(ReplyService.class);
 	}
 	
 	@Override
