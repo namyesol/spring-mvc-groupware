@@ -1,16 +1,13 @@
 package com.groupware.controller.community;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -35,11 +32,11 @@ public class CommunityController {
 	//자유게시판 리스트
 	// @GetMapping("/communities")
 	@GetMapping("/CommunityListServlet")
-	public void getCommunityList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String getCommunityList(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
-			response.sendRedirect("/");
+			return "redirect:/";
 		} else {
 			// 페이지네이션 정보 생성
 			String pageParam = request.getParameter("page");
@@ -60,37 +57,33 @@ public class CommunityController {
 			PageRequestDTO pageRequest = new PageRequestDTO(page, size);
 			
 			PageResponseDTO<CommunityDetailsDTO> pageResponse = communityService.getCommunityDetailsList(pageRequest);
-			request.setAttribute("pageResponse", pageResponse);
+			model.addAttribute("pageResponse", pageResponse);
 			
-			String nextPage = "WEB-INF/views/community/community-list.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-			dispatcher.forward(request, response);
+			return "community/community-list";
 		}
 	}
 	
 	//새로작성폼 보여주기
 	// @GetMapping("/communities/new")
 	@GetMapping("/NewCommunityServlet")
-	public void showNewCommunityForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String showNewCommunityForm(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
-			response.sendRedirect("/");
+			return "redirect:/";
 		} else {
-			String nextPage = "WEB-INF/views/community/community-new.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-			dispatcher.forward(request, response);
+			return "community/community-new";
 		}
 	}
 	
 	//새로작성
 	// @PostMapping("/communities/new")
 	@PostMapping("/NewCommunityServlet")
-	public void newCommunity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String newCommunity(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
-			response.sendRedirect("/");
+			return "redirect:/";
 		} else {
 			Long memberNum = Long.valueOf(member.getMember_num());
 			String title = request.getParameter("title");
@@ -99,18 +92,18 @@ public class CommunityController {
 			
 			communityService.save(community);
 			
-			response.sendRedirect("/CommunityDetailsServlet"+ "?comNum=" + community.getComNum());
+			return "redirect:" + "/CommunityDetailsServlet"+ "?comNum=" + community.getComNum();
 		}
 	}
 	
 	//상세페이지
 	// @GetMapping("/communities/{comNum}") 
 	@GetMapping("/CommunityDetailsServlet")
-	public void getCommunityDetails(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String getCommunityDetails(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
-			response.sendRedirect("/");
+			return "redirect:/";
 		} else {
 			long comNum = Long.parseLong(request.getParameter("comNum"));
 
@@ -119,44 +112,40 @@ public class CommunityController {
 			CommunityDetailsDTO communityDetails = communityService.getCommunityDetailsByNum(comNum);
 			List<ReplyDetailsDTO> replyDetailsList = replyService.getReplyDetailsListByComNum(comNum);
 			
-			request.setAttribute("communityDetails", communityDetails);
-			request.setAttribute("replyDetailsList", replyDetailsList);
+			model.addAttribute("communityDetails", communityDetails);
+			model.addAttribute("replyDetailsList", replyDetailsList);
 
-			String nextPage = "WEB-INF/views/community/community-details.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-			dispatcher.forward(request, response);
+			return "community/community-details";
 		}
 	}
 	
 	//수정폼 보여주기
 	// @GetMapping("/communities/{comNum}/edit")
 	@GetMapping("/EditCommunityServlet")
-	public void showUpdatCommunityForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String showUpdatCommunityForm(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
-			response.sendRedirect("/");
+			return "redirect:/";
 		} else {
 			Long comNum = Long.parseLong(request.getParameter("comNum"));
 
 			CommunityDTO community = communityService.getCommunityByNum(comNum);
 
-			request.setAttribute("community", community);
+			model.addAttribute("community", community);
 
-			String nextPage = "WEB-INF/views/community/community-edit.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-			dispatcher.forward(request, response);
+			return "community/community-edit";
 		}
 	}
 	
 	//수정하기
 	// @PostMapping("/communities/{comNum}/edit")
 	@PostMapping("/EditCommunityServlet")
-	public void updateCommunity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String updateCommunity(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
-			response.sendRedirect("/");
+			return "redirect:/";
 		} else {
 			Long memberNum = Long.valueOf(member.getMember_num());
 			Long comNum = Long.parseLong(request.getParameter("comNum"));
@@ -169,25 +158,25 @@ public class CommunityController {
 			
 			communityService.update(comNum, memberNum, updateDTO);
 			
-			response.sendRedirect("/CommunityDetailsServlet" + "?comNum=" + comNum);
+			return "redirect:" + "/CommunityDetailsServlet" + "?comNum=" + comNum;
 		}
 	}
 	
 	//삭제하기
 	// @PostMapping("/communities/{comNum}/delete") 
 	@PostMapping("/DeleteCommunityServlet")
-	public void deleteCommunity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String deleteCommunity(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		if (member == null) {
-			response.sendRedirect("/");
+			return "redirect:/";
 		} else {
 			Long comNum = Long.parseLong(request.getParameter("comNum"));
 			Long memNum = Long.valueOf(member.getMember_num());
 			
 			communityService.delete(comNum, memNum);
 			
-			response.sendRedirect("/CommunityListServlet");
+			return "redirect:" + "/CommunityListServlet";
 		}
 	}
 }
