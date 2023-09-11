@@ -2,53 +2,58 @@ package com.groupware.dao.community;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.groupware.common.PageRequestDTO;
 import com.groupware.dto.community.CommunityDTO;
 import com.groupware.dto.community.CommunityDetailsDTO;
 
+@Repository
 public class CommunityDAO {
 
+	@Autowired
+	SqlSessionTemplate template;
 	
-	public void insert(SqlSession session, CommunityDTO community) {
-		session.insert("CommunityMapper.insert", community);
+	public void insert(CommunityDTO community) {
+		template.insert("CommunityMapper.insert", community);
 	}
 
-	public CommunityDTO getCommunityByNum(SqlSession session, Long comNum) {
-		return session.selectOne("CommunityMapper.getCommunityByNum", comNum);
+	public CommunityDTO getCommunityByNum(Long comNum) {
+		return template.selectOne("CommunityMapper.getCommunityByNum", comNum);
 	}
 
-	public List<CommunityDTO> getCommunityByMemberNum(SqlSession session, Long memberNum) {	
-		return session.selectOne("CommunityMapper.getCommunityByMemberNum", memberNum);
+	public List<CommunityDTO> getCommunityByMemberNum(Long memberNum) {	
+		return template.selectOne("CommunityMapper.getCommunityByMemberNum", memberNum);
 	}
 
-	public List<CommunityDTO> getCommunityList(SqlSession session ) {
-		return session.selectList("CommunityMapper.getCommunityList");
+	public List<CommunityDTO> getCommunityList() {
+		return template.selectList("CommunityMapper.getCommunityList");
 	}
 
-	public void update(SqlSession session, CommunityDTO communtiy) {
-		session.update("CommunityMapper.update", communtiy);
+	public void update(CommunityDTO communtiy) {
+		template.update("CommunityMapper.update", communtiy);
 	}
 
-	public void delete(SqlSession session, Long comNum) {
-		session.delete("CommunityMapper.delete", comNum);
+	public void delete(Long comNum) {
+		template.delete("CommunityMapper.delete", comNum);
 	}
 
-	public void increaseViews(SqlSession session, Long comNum) {
-		session.update("CommunityMapper.increaseViews", comNum);		
-	}
-	
-	public CommunityDetailsDTO getCommunityDetailsByNum(SqlSession session, Long comNum) {
-		return session.selectOne("CommunityMapper.getCommunityDetailsByNum", comNum);
-	}
-
-	public List<CommunityDetailsDTO> getCommunityDetailsList(SqlSession session, PageRequestDTO page) {
-		return session.selectList("CommunityMapper.getCommunityDetailsList", page);
+	public void increaseViews(Long comNum) {
+		template.update("CommunityMapper.increaseViews", comNum);		
 	}
 	
-	public Integer count(SqlSession session) {
-		return session.selectOne("CommunityMapper.count");
+	public CommunityDetailsDTO getCommunityDetailsByNum(Long comNum) {
+		return template.selectOne("CommunityMapper.getCommunityDetailsByNum", comNum);
+	}
+
+	public List<CommunityDetailsDTO> getCommunityDetailsList(PageRequestDTO page) {
+		return template.selectList("CommunityMapper.getCommunityDetailsList", page);
+	}
+	
+	public Integer count() {
+		return template.selectOne("CommunityMapper.count");
 	}
 
 }
