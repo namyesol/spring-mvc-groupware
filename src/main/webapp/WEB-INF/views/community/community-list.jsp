@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <title>Insert title here</title>
 </head>
@@ -15,7 +15,7 @@
 <div class="container-fluid">
 	<div class="row">
 	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/common/mainMenu.jsp" flush="true" /> <br> 
+      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
       	</div>
 
 		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

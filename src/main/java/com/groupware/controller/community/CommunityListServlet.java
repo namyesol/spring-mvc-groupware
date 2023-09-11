@@ -56,7 +56,7 @@ public class CommunityListServlet extends HttpServlet {
 			PageResponseDTO<CommunityDetailsDTO> pageResponse = communityService.getCommunityDetailsList(pageRequest);
 			request.setAttribute("pageResponse", pageResponse);
 			
-			String nextPage = "community/community-list.jsp";
+			String nextPage = "WEB-INF/views/community/community-list.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
 			dispatcher.forward(request, response);
 		}

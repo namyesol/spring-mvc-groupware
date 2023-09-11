@@ -32,7 +32,7 @@ public class NewCommunityServlet extends HttpServlet {
 		if (member == null) {
 			response.sendRedirect("/");
 		} else {
-			String nextPage = "/community/community-new.jsp";
+			String nextPage = "WEB-INF/views/community/community-new.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
 			dispatcher.forward(request, response);
 		}

@@ -48,7 +48,7 @@ public class CommunityDetailsServlet extends HttpServlet {
 			request.setAttribute("communityDetails", communityDetails);
 			request.setAttribute("replyDetailsList", replyDetailsList);
 
-			String nextPage = "community/community-details.jsp";
+			String nextPage = "WEB-INF/views/community/community-details.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
 			dispatcher.forward(request, response);
 		}
