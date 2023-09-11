@@ -1,14 +1,14 @@
-package com.service.community;
+package com.groupware.service.community;
 
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.config.MySqlSessionFactory;
-import com.dao.community.ReplyDAO;
-import com.dto.community.ReplyDTO;
-import com.dto.community.ReplyDetailsDTO;
+import com.groupware.config.MySqlSessionFactory;
+import com.groupware.dao.community.ReplyDAO;
+import com.groupware.dto.community.ReplyDTO;
+import com.groupware.dto.community.ReplyDetailsDTO;
 
 
 public class ReplyService {

@@ -1,4 +1,4 @@
-package com.controller.community;
+package com.groupware.controller.community;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.dto.MemberDTO;
-import com.dto.community.CommunityDetailsDTO;
-import com.dto.community.ReplyDetailsDTO;
-import com.service.community.CommunityService;
-import com.service.community.ReplyService;
+import com.groupware.dto.MemberDTO;
+import com.groupware.dto.community.CommunityDetailsDTO;
+import com.groupware.dto.community.ReplyDetailsDTO;
+import com.groupware.service.community.CommunityService;
+import com.groupware.service.community.ReplyService;
 
 @WebServlet("/CommunityDetailsServlet")
 public class CommunityDetailsServlet extends HttpServlet {

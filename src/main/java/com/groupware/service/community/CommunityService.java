@@ -1,4 +1,4 @@
-package com.service.community;
+package com.groupware.service.community;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,14 +7,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.common.PageRequestDTO;
-import com.common.PageResponseDTO;
-import com.config.MySqlSessionFactory;
-import com.dao.community.CommunityDAO;
-import com.dao.community.ReplyDAO;
-import com.dto.community.CommunityDTO;
-import com.dto.community.CommunityDetailsDTO;
-import com.dto.community.ReplyDTO;
+import com.groupware.common.PageRequestDTO;
+import com.groupware.common.PageResponseDTO;
+import com.groupware.config.MySqlSessionFactory;
+import com.groupware.dao.community.CommunityDAO;
+import com.groupware.dao.community.ReplyDAO;
+import com.groupware.dto.community.CommunityDTO;
+import com.groupware.dto.community.CommunityDetailsDTO;
+import com.groupware.dto.community.ReplyDTO;
 
 
 

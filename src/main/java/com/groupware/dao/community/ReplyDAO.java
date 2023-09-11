@@ -1,11 +1,11 @@
-package com.dao.community;
+package com.groupware.dao.community;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.dto.community.ReplyDTO;
-import com.dto.community.ReplyDetailsDTO;
+import com.groupware.dto.community.ReplyDTO;
+import com.groupware.dto.community.ReplyDetailsDTO;
 
 public class ReplyDAO {
 	

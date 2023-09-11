@@ -1,12 +1,12 @@
-package com.dao.community;
+package com.groupware.dao.community;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.common.PageRequestDTO;
-import com.dto.community.CommunityDTO;
-import com.dto.community.CommunityDetailsDTO;
+import com.groupware.common.PageRequestDTO;
+import com.groupware.dto.community.CommunityDTO;
+import com.groupware.dto.community.CommunityDetailsDTO;
 
 public class CommunityDAO {
 

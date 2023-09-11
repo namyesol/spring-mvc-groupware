@@ -1,4 +1,4 @@
-package com.controller.community;
+package com.groupware.controller.community;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.dto.MemberDTO;
-import com.service.community.CommunityService;
+import com.groupware.dto.MemberDTO;
+import com.groupware.service.community.CommunityService;
 
 @WebServlet("/DeleteCommunityServlet")
 public class DeleteCommunityServlet extends HttpServlet {
