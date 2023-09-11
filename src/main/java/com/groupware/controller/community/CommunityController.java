@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.groupware.common.PageRequestDTO;
 import com.groupware.common.PageResponseDTO;
@@ -53,14 +54,18 @@ public class CommunityController {
 	
 	//새로작성
 	@PostMapping("/communities/new")
-	public String newCommunity(@RequestParam String title, @RequestParam String content, HttpSession session) {
+	public String newCommunity(@RequestParam String title,
+		@RequestParam String content, 
+		HttpSession session, 
+		RedirectAttributes redirectAttributes) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
 		CommunityDTO community = new CommunityDTO(memberNum, title, content);
 		
 		communityService.save(community);
 		
-		return "redirect:" + "/communities/" + community.getComNum();
+		redirectAttributes.addAttribute("comNum",community.getComNum());
+		return "redirect:/communities/{comNum}";
 	}
 	
 	//상세페이지

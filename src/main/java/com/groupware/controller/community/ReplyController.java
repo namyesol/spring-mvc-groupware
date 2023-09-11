@@ -27,7 +27,7 @@ public class ReplyController {
 		
 		replyService.save(reply);
 		
-		return "redirect:" + "/communities/{comNum}";
+		return "redirect:/communities/{comNum}";
 	}
 	
 	@PostMapping("/communities/{comNum}/replies/{replyNum}/edit")
@@ -39,7 +39,7 @@ public class ReplyController {
 		updateDTO.setContent(content);
 		replyService.update(replyNum, memberNum, updateDTO);
 		
-		return "redirect:" + "/communities/{comNum}";
+		return "redirect:/communities/{comNum}";
 	}
 	
 	@PostMapping("/communities/{comNum}/replies/{replyNum}/delete")
@@ -49,6 +49,6 @@ public class ReplyController {
 
 		replyService.delete(replyNum, memberNum);
 		
-		return "redirect:" + "/communities/{comNum}";
+		return "redirect:/communities/{comNum}";
 	}
 }
