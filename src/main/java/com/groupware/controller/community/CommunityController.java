@@ -108,7 +108,7 @@ public class CommunityController {
 		
 		communityService.update(comNum, memberNum, updateDTO);
 		
-		return "redirect:" + "/communities/" + comNum;
+		return "redirect:/communities/{comNum}";
 	}
 	
 	//삭제하기
