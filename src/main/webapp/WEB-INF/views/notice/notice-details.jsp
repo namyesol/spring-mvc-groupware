@@ -7,15 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
 <title>Insert title here</title>
 </head>
 <body>
 <div class="container-fluid">
 	<div class="row">
 	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/common/mainMenu.jsp" flush="true" /> <br> 
+      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
       	</div>
       	
       	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -30,13 +30,13 @@
       			<p class="text-break">${notice.content}</p>
       		</article>
     		<div class="btn-group me-2 w-100">
-				<a href="/EditNoticeServlet?noticeNum=${notice.noticeNum}">
+				<a href="/notices/${notice.noticeNum}/edit">
 					<button type="button" class="btn btn-outline-primary">수정</button>
 				</a>
-				<form action="/DeleteNoticeServlet?noticeNum=${notice.noticeNum}" method="post">
+				<form action="/notices/${notice.noticeNum}/delete" method="post">
 					<button type="submit" class="btn btn-outline-danger">삭제</button>
 				</form>
-				<a href="/NoticeListServlet">
+				<a href="/notices">
 					<button type="button" class="btn btn-outline-dark">뒤로가기</button>
 				</a>
 			</div>

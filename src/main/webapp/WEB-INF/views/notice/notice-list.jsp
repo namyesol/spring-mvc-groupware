@@ -7,15 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
 <title>Insert title here</title>
 </head>
 <body>
 <div class="container-fluid">
 	<div class="row">
 	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/common/mainMenu.jsp" flush="true" /> <br> 
+      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
       	</div>
 
 		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -25,7 +25,7 @@
 			        <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 			        <button class="btn btn-outline-success" type="submit">Search</button>
 		      	</form>
-				<a href="/NewNoticeServlet">
+				<a href="/notices/new">
 					<button type="button" class="btn btn-outline-primary">작성</button>
 				</a>
 			</div>
@@ -44,10 +44,10 @@
 		        	<c:forEach var="notice" items="${pageResponse.items}">
 			        	<tr>
 					        <th scope="row">
-					        	<a href="/NoticeDetailsServlet?noticeNum=${notice.noticeNum}">${notice.noticeNum}</a>
+					        	<a href="/notices/${notice.noticeNum}">${notice.noticeNum}</a>
 				        	</th>
 				        	<td>
-				        		<a href="/NoticeDetailsServlet?noticeNum=${notice.noticeNum}">${notice.title}</a>
+				        		<a href="/notices/${notice.noticeNum}">${notice.title}</a>
 				        	</td>
 				        	<td>${notice.memberName}</td>
 				        	<td><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년M월d일 hh:mm"/></td>
@@ -63,7 +63,7 @@
 				  	<c:choose>
 				  	<c:when test="${pageResponse.hasPrevious}">
 					    <li class="page-item">
-					      <a class="page-link" href="/NoticeListServlet?page=${pageResponse.start-1}&size=${pageResponse.size}" aria-label="Previous">
+					      <a class="page-link" href="/notices?page=${pageResponse.start-1}&size=${pageResponse.size}" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>
 					      </a>
 					    </li>
@@ -80,12 +80,12 @@
 				    <c:choose>
 					    <c:when test="${pageResponse.page eq status.current}">
 					    <li class="page-item active">
-					    	<a class="page-link" href="/NoticeListServlet?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="/notices?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
 				    	</li>
 					    </c:when>
 					    <c:otherwise>
    						<li class="page-item">
-					    	<a class="page-link" href="/NoticeListServlet?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="/notices?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
 				    	</li>
 					    </c:otherwise>
 				    </c:choose>					   
@@ -94,7 +94,7 @@
    				  	<c:choose>
 				  	<c:when test="${pageResponse.hasNext}">
 					    <li class="page-item">
-					      <a class="page-link" href="/NoticeListServlet?page=${pageResponse.end+1}&size=${pageResponse.size}" aria-label="Next">
+					      <a class="page-link" href="/notices?page=${pageResponse.end+1}&size=${pageResponse.size}" aria-label="Next">
 					        <span aria-hidden="true">&raquo;</span>
 					      </a>
 					    </li>
