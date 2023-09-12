@@ -7,15 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
 <title>Insert title here</title>
 </head>
 <body>
 <div class="container-fluid">
 	<div class="row">
 	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/common/mainMenu.jsp" flush="true" /> <br> 
+      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
       	</div>
       	
       	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -24,19 +24,19 @@
       			<div class="d-flex gap-2">
       				<p>글번호: ${communityDetails.comNum}
 	      			<p>작성자: ${communityDetails.memberName}</p>
-					<p>작성일: <fmt:formatDate value="${communityDetails.createdAt}" pattern="M월d일 hh:mm"/></p>
+					<p>작성일: <fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년M월d일 hh:mm"/></p>
 					<p>조회수: ${communityDetails.views}</p>
       			</div>
       			<p class="text-break">${communityDetails.content}</p>
       		</article>
     		<div class="btn-group me-2 w-100">
-				<a href="/EditCommunityServlet?comNum=${communityDetails.comNum}">
+				<a href="/communities/${communityDetails.comNum}/edit">
 					<button type="button" class="btn btn-outline-primary">수정</button>
 				</a>
-				<form action="/DeleteCommunityServlet?comNum=${communityDetails.comNum}" method="post">
+				<form action="/communities/${communityDetails.comNum}/delete" method="post">
 					<button type="submit" class="btn btn-outline-danger">삭제</button>
 				</form>
-				<a href="/CommunityListServlet">
+				<a href="/communities">
 					<button type="button" class="btn btn-outline-dark">뒤로가기</button>
 				</a>
 			</div>
