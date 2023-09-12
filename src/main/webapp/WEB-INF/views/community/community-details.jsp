@@ -69,7 +69,8 @@
 	      			</div>
             	</article>
             	<article class="ms-${replyDetails.level} mr-6 mt-3 mb-3 pb-3 border-bottom d-none" data-reply-num="${replyDetails.replyNum}" data-article-type="edit">
-            		<form action="/EditReplyServlet?replyNum=${replyDetails.replyNum}&comNum=${communityDetails.comNum}" method="post">
+            		
+            		<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/edit" method="post">
 	        		<div class="d-flex gap-2 align-items-center">
 		      			<p class="fw-bold">${replyDetails.memberName}</p>
 						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="MM/dd h:m"/></p>

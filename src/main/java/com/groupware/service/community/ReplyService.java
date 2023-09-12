@@ -26,14 +26,14 @@ public class ReplyService {
     }
     
 
-	public void update(Long replyNum, Long memberNum, ReplyDTO updateDTO) {
+	public void update(Long replyNum, Long memberNum, String content) {
 			ReplyDTO reply = dao.getReplyByNum(replyNum);
 			
 			if (!memberNum.equals(reply.getMemberNum())) {
 				return;
 			}
 			
-			reply.setContent(updateDTO.getContent());
+			reply.setContent(content);
 			dao.update(reply);
 		
 	}
