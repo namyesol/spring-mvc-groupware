@@ -73,7 +73,7 @@
             		<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/edit" method="post">
 	        		<div class="d-flex gap-2 align-items-center">
 		      			<p class="fw-bold">${replyDetails.memberName}</p>
-						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern=YYYY/MM/dd h:m"/></p>
+						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="YYYY/MM/dd h:m"/></p>
 	      			</div>
 					<textarea name="content" class="form-control" rows="3">${replyDetails.content}</textarea>
 	      			<div class="btn-group gap-2">
