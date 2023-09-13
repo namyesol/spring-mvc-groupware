@@ -20,7 +20,7 @@ public class ReplyController {
 	ReplyService replyService;
 	
 	//댓글작성
-	@PostMapping("/communities/{comNum}/reply/new")
+	@PostMapping("/communities/{comNum}/replies/new")
 	public String newReply(
 			@PathVariable("comNum") Long comNum,
 			@RequestParam("content") String content,

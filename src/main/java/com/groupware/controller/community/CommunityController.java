@@ -1,5 +1,7 @@
 package com.groupware.controller.community;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,11 @@ import com.groupware.common.PageResponseDTO;
 import com.groupware.dto.MemberDTO;
 import com.groupware.dto.community.CommunityDTO;
 import com.groupware.dto.community.CommunityDetailsDTO;
+import com.groupware.dto.community.ReplyDetailsDTO;
 import com.groupware.dto.notice.NoticeDTO;
 import com.groupware.dto.notice.NoticeDetailsDTO;
 import com.groupware.service.community.CommunityService;
+import com.groupware.service.community.ReplyService;
 import com.groupware.service.notice.NoticeService;
 
 @Controller
@@ -25,6 +29,8 @@ public class CommunityController {
 
 	@Autowired
 	CommunityService communityService;
+	@Autowired
+	ReplyService replyService;
 	
 	//자유게시판 리스트
 	@GetMapping("/communities")
@@ -89,6 +95,9 @@ public class CommunityController {
 		
 		CommunityDetailsDTO communityDetails = communityService.getCommunityDetailsByNum(comNum);
 		model.addAttribute("communityDetails", communityDetails);
+		
+		List<ReplyDetailsDTO> replyDetailsList = replyService.getReplyDetailsListByComNum(comNum);
+		model.addAttribute("replyDetailsList", replyDetailsList);
 		
 		return "community/community-details";
 	}

@@ -41,7 +41,7 @@
 				</a>
 			</div>
 			<section class="mt-3 mb-3">
-				<form action="/NewReplyServlet?comNum=${communityDetails.comNum}" method="post">
+				<form action="/communities/${communityDetails.comNum}/replies/new" method="post">
 					<div class="mb-3">
 						<label for="content" class="form-label">댓글 달기</label>
 						<textarea name="content" class="form-control" rows="3"></textarea>
@@ -63,7 +63,7 @@
 	      			<div class="btn-group gap-2">
 	      				<button class="reply-toggle-button btn text-secondary p-0 m-0">댓글 달기</button>
       					<button class="edit-toggle-button btn text-secondary p-0 m-0">편집</button>
-		      			<form action="/DeleteReplyServlet?replyNum=${replyDetails.replyNum}&comNum=${communityDetails.comNum}" method="post">
+		      			<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/delete" method="post">
 	      					<button class="btn text-secondary p-0 m-0">삭제</button>
 	      				</form>
 	      			</div>
@@ -73,7 +73,7 @@
             		<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/edit" method="post">
 	        		<div class="d-flex gap-2 align-items-center">
 		      			<p class="fw-bold">${replyDetails.memberName}</p>
-						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="MM/dd h:m"/></p>
+						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern=YYYY/MM/dd h:m"/></p>
 	      			</div>
 					<textarea name="content" class="form-control" rows="3">${replyDetails.content}</textarea>
 	      			<div class="btn-group gap-2">
