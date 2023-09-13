@@ -51,7 +51,7 @@
 				        		<a href="${communityDetailsUrl}">${communityDetails.title}</a>
 				        	</td>
 				        	<td>${communityDetails.memberName}</td>
-				        	<td><fmt:formatDate value="${communityDetails.createdAt}" pattern="M월d일"/></td>
+				        	<td><fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 M월 d일"/></td>
 				    	    <td>${communityDetails.views}</td>
 				        </tr>
 		        	</c:forEach>
