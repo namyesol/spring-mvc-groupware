@@ -26,7 +26,6 @@ public class ReplyController {
 			@RequestParam("content") String content,
 			@RequestParam(required=false) Long parentReplyNum,
 			HttpSession session) {
-		
 		MemberDTO member =(MemberDTO)session.getAttribute("login");
 		
 		if(member == null) {

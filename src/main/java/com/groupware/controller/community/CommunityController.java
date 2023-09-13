@@ -98,9 +98,10 @@ public class CommunityController {
 		
 		List<ReplyDetailsDTO> replyDetailsList = replyService.getReplyDetailsListByComNum(comNum);
 		model.addAttribute("replyDetailsList", replyDetailsList);
-		
+
 		return "community/community-details";
 	}
+	
 	//수정폼 보여주기
 	@GetMapping("/communities/{comNum}/edit")
 	public String showUpdatCommunityForm(@PathVariable("comNum") Long comNum, HttpSession session, Model model) {
