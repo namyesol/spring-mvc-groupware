@@ -50,7 +50,7 @@
 				        		<a href="/notices/${notice.noticeNum}">${notice.title}</a>
 				        	</td>
 				        	<td>${notice.memberName}</td>
-				        	<td><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년M월d일 hh:mm"/></td>
+				        	<td><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></td>
 				    	    <td>${notice.views}</td>
 				        </tr>
 		        	</c:forEach>

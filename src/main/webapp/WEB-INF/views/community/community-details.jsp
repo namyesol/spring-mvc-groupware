@@ -24,7 +24,7 @@
       			<div class="d-flex gap-2">
       				<p>글번호: ${communityDetails.comNum}
 	      			<p>작성자: ${communityDetails.memberName}</p>
-					<p>작성일: <fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년M월d일 hh:mm"/></p>
+					<p>작성일: <fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
 					<p>조회수: ${communityDetails.views}</p>
       			</div>
       			<p class="text-break">${communityDetails.content}</p>
@@ -32,10 +32,10 @@
     		<div class="btn-group me-2 w-100">
 				<a href="/communities/${communityDetails.comNum}/edit">
 					<button type="button" class="btn btn-outline-primary">수정</button>
-				</a>
+				</a>&nbsp;
 				<form action="/communities/${communityDetails.comNum}/delete" method="post">
 					<button type="submit" class="btn btn-outline-danger">삭제</button>
-				</form>
+				</form>&nbsp;
 				<a href="/communities">
 					<button type="button" class="btn btn-outline-dark">뒤로가기</button>
 				</a>
@@ -56,8 +56,8 @@
             	<article class="ms-${replyDetails.level} mb-3 pb-3 border-bottom" data-reply-num="${replyDetails.replyNum}" data-article-type="content">
 	        		<div class="d-flex gap-2 align-items-center">
 		      			<p class="fw-bold">${replyDetails.memberName}</p>
-						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="MM/dd h:m"/></p>
-						<p class="text-secondary">댓글 깊이 : ${replyDetails.level}</p>
+						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="YYYY/MM/dd h:m"/></p>
+						<%-- <p class="text-secondary">댓글 깊이 : ${replyDetails.level}</p> --%>
 	      			</div>
 	      			<p class="text-break">${replyDetails.content}</p>
 	      			<div class="btn-group gap-2">
@@ -83,7 +83,8 @@
 	      			</form>
             	</article>
             	<article class="ms-${replyDetails.level} mt-3 mb-3 pb-3 border-bottom d-none" data-reply-num="${replyDetails.replyNum}" data-article-type="reply">
-            		<form action="/NewReplyServlet?comNum=${communityDetails.comNum}&parentReplyNum=${replyDetails.replyNum}" method="post">
+            		<form action="/communities/${communityDetails.comNum}/replies/new" method="post">
+	        		  <input type="hidden" name="parentReplyNum" value="${replyDetails.replyNum}">
 	        		<div class="d-flex gap-2 align-items-center">
 		      			<p class="fw-bold">${login.member_name}</p>
 	      			</div>
