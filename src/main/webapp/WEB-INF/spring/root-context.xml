@@ -2,8 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://mybatis.org/schema/mybatis-spring https://mybatis.org/schema/mybatis-spring.xsd">
 	
 	<!-- 1.jdbc.properties -->
     <context:property-placeholder location="classpath:com/groupware/config/jdbc.properties"/>
@@ -22,12 +26,27 @@
         <property name="mapperLocations">
             <list>
                 <value>classpath:com/groupware/config/MemberMapper.xml</value>
+                <value>classpath:com/groupware/config/NoticeMapper.xml</value>
+                <value>classpath:com/groupware/config/CommunityMapper.xml</value>
+                <value>classpath:com/groupware/config/ReplyMapper.xml</value>
             </list>
         </property>
         <property name="typeAliases">
             <list>
                 <value>com.groupware.dto.MemberDTO</value>
+                <value>com.groupware.dto.notice.NoticeDTO</value>
+                <value>com.groupware.dto.notice.NoticeDetailsDTO</value>
+                <value>com.groupware.dto.community.CommunityDTO</value>
+                <value>com.groupware.dto.community.CommunityDetailsDTO</value>
+                <value>com.groupware.dto.community.ReplyDTO</value>
+                <value>com.groupware.dto.community.ReplyDetailsDTO</value>
             </list>
+        </property>
+        <!-- Mybatis `jdbcTypeForNull` 설정 -->
+                <property name="configuration">
+        	<bean class="org.apache.ibatis.session.Configuration">
+		      <property name="jdbcTypeForNull" value="NULL"/>
+		    </bean>
         </property>
     </bean>
         
@@ -36,4 +55,12 @@
         <constructor-arg name="sqlSessionFactory" ref="sessionFactory"></constructor-arg>
 	<!-- 종료 -->
     </bean>
+    
+      <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<context:annotation-config/>
 </beans>
