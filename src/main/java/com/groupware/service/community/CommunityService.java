@@ -77,14 +77,17 @@ public class CommunityService {
 
     }
     
-    public void increaseViews(Long comNum) {
-    	
-			communityDao.increaseViews(comNum);
-    }
+	
+	/*
+	 * public void increaseViews(Long comNum) {
+	 * 
+	 * communityDao.increaseViews(comNum); }
+	 */
+	 
 
-    public CommunityDetailsDTO getCommunityDetailsByNum(Long replyNum) {
-    	
-    		return communityDao.getCommunityDetailsByNum(replyNum);
+    public CommunityDetailsDTO getCommunityDetailsByNum(Long comNum) {
+    		communityDao.increaseViews(comNum);
+    		return communityDao.getCommunityDetailsByNum(comNum);
     }
 
     
